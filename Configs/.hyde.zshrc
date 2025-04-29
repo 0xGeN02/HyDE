@@ -3,7 +3,7 @@
 # This is a good place to load graphic/ascii art, display system information, etc.
 
 
-command -v pokego >/dev/null && pokego --no-title -r 1,3,6
+# command -v pokego >/dev/null && pokego --no-title -r 1,3,6
 
 # fastfetch --logo-type kitty
 # fastfetch.sh
