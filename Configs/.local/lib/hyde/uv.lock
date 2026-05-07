@@ -1,6 +1,15 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.11"
+
+[[package]]
+name = "aiofiles"
+version = "25.1.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/41/c3/534eac40372d8ee36ef40df62ec129bee4fdb5ad9706e58a29be53b2c970/aiofiles-25.1.0.tar.gz", hash = "sha256:a8d728f0a29de45dc521f18f07297428d56992a742f0cd2701ba86e44d23d5b2", size = 46354, upload-time = "2025-10-09T20:51:04.358Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/bc/8a/340a1555ae33d7354dbca4faa54948d76d89a27ceef032c8c3bc661d003e/aiofiles-25.1.0-py3-none-any.whl", hash = "sha256:abe311e527c862958650f9438e859c1fa7568a141b22abcd015e120e86a85695", size = 14668, upload-time = "2025-10-09T20:51:03.174Z" },
+]
 
 [[package]]
 name = "certifi"
@@ -180,29 +189,49 @@ wheels = [
 ]
 
 [[package]]
+name = "hererocks"
+version = "0.25.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/76/a0/9a9e8312da627ac39a5a719cadaf6b7f207856f7fc1c6461f3efd4dc690c/hererocks-0.25.1.tar.gz", hash = "sha256:a88b73693cf7753cf7e4139247a81f03c71bac4cb035f5d6bfe20dcddd86d100", size = 36613, upload-time = "2022-04-07T13:10:12.395Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/14/a8/7903eac744562b403b608c4c6fa667e34631ac0787e13e1b1a33ae956366/hererocks-0.25.1-py3-none-any.whl", hash = "sha256:43d5e9283588f83aeb703d6d9bc74249d2fa75126638699ca5fdfd1782f47909", size = 36196, upload-time = "2022-04-07T13:10:10.472Z" },
+]
+
+[[package]]
 name = "hyde-pyutils"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "hererocks" },
     { name = "inotify-simple" },
     { name = "loguru" },
     { name = "pulsectl" },
     { name = "pygobject" },
+    { name = "pyprland" },
     { name = "pyqt6" },
     { name = "pywayland" },
     { name = "requests" },
 ]
 
+[package.optional-dependencies]
+amd = [
+    { name = "pyamdgpuinfo" },
+]
+
 [package.metadata]
 requires-dist = [
+    { name = "hererocks", specifier = ">=0.25.1" },
     { name = "inotify-simple" },
     { name = "loguru", specifier = "==0.7.3" },
     { name = "pulsectl", specifier = "==24.12.0" },
+    { name = "pyamdgpuinfo", marker = "extra == 'amd'" },
     { name = "pygobject" },
+    { name = "pyprland", specifier = "==2.4.7" },
     { name = "pyqt6" },
     { name = "pywayland" },
     { name = "requests", specifier = "==2.33.0" },
 ]
+provides-extras = ["amd"]
 
 [[package]]
 name = "idna"
@@ -245,6 +274,24 @@ wheels = [
 ]
 
 [[package]]
+name = "pyamdgpuinfo"
+version = "2.1.8"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/61/b1/399158002f4246d54d2757021544dea89038ecd320cc8ea1db36bdddac23/pyamdgpuinfo-2.1.8.tar.gz", hash = "sha256:e389981f00bf42fde41233958a21c6288853a46c7dfe7b062b2abe054cfb1d7b", size = 21876, upload-time = "2026-03-28T14:06:08.416Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/26/26/ce7f6e55ab5d95d2180a6e483cec66c25721c803cbdda1bf8c4640ccc73a/pyamdgpuinfo-2.1.8-cp311-cp311-manylinux_2_28_x86_64.whl", hash = "sha256:ba6c478f552a22b86b684ab3cd87510596fafc94afc6ddd98765e171ae9d1919", size = 374641, upload-time = "2026-03-28T14:08:48.063Z" },
+    { url = "https://files.pythonhosted.org/packages/5d/4e/3263b6c09f472b19fedc592c73ad5cb62eb44c491dd8f60e27372fc54e1d/pyamdgpuinfo-2.1.8-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:dc6ee60cc62bf416fa2b77d11176c277c3dd36bf3530df5e609f2a5308f1dc0d", size = 363552, upload-time = "2026-03-28T14:08:49.443Z" },
+    { url = "https://files.pythonhosted.org/packages/a7/af/1431c481ec0f52e3313773b0244c65081ccc18e40b485eabe846a494914d/pyamdgpuinfo-2.1.8-cp312-cp312-manylinux_2_28_x86_64.whl", hash = "sha256:9925571d64ba9ad69fcd88b993a7b4b674639cab5d9c3c2170684448a43d460b", size = 386305, upload-time = "2026-03-28T14:08:50.648Z" },
+    { url = "https://files.pythonhosted.org/packages/bd/e5/57a67b0092b46a15581085349b4b62db6a1f8f0b5d2a86bab1ba601a8101/pyamdgpuinfo-2.1.8-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:64c76edbe96bb90a3feb02ff81abae49f6054a345e42e885b2d05bb4008402a9", size = 374383, upload-time = "2026-03-28T14:08:51.781Z" },
+    { url = "https://files.pythonhosted.org/packages/7b/8f/6ed9a6324632e2ce2467df9b3d485a4de1d13268fb73689056d2e6c5e855/pyamdgpuinfo-2.1.8-cp313-cp313-manylinux_2_28_x86_64.whl", hash = "sha256:ea02fa624fed78c5d19f97136c4696123fdd7503d1cf86055176143fdc290c36", size = 374964, upload-time = "2026-03-28T14:08:52.954Z" },
+    { url = "https://files.pythonhosted.org/packages/9b/8e/fd134a10a55cb1cec422f8de4cef4974a9092a670b1e91094992c6ec1ee5/pyamdgpuinfo-2.1.8-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:17e783a0a8890f33711aa028610fe03023e73f6f613e0263ae7749947d65a12b", size = 363002, upload-time = "2026-03-28T14:08:54.227Z" },
+    { url = "https://files.pythonhosted.org/packages/a4/c8/0b7414944bc6a3e8da931684a15dc5dc8f775f7d6a72082ad009ab386783/pyamdgpuinfo-2.1.8-cp314-cp314-manylinux_2_28_x86_64.whl", hash = "sha256:1ae569bd3d9e7305f1f542bdd1e0b2b8746fd454d43272b385da72af2144769f", size = 372823, upload-time = "2026-03-28T14:08:55.456Z" },
+    { url = "https://files.pythonhosted.org/packages/2d/85/4caac5ce82a1d3b2264ede98905513cf1ab8540015e9e9b0c2fb4b193b7d/pyamdgpuinfo-2.1.8-cp314-cp314-musllinux_1_2_x86_64.whl", hash = "sha256:b78dcc38876a192bfeea986aa33256ae25445f47909cf060938581384ae16da1", size = 361630, upload-time = "2026-03-28T14:08:56.673Z" },
+    { url = "https://files.pythonhosted.org/packages/cc/ba/93055b30af897cf01de03d93d91ea1be4d9d7a691be8fe8cbf6d02ba6dbe/pyamdgpuinfo-2.1.8-cp314-cp314t-manylinux_2_28_x86_64.whl", hash = "sha256:0ac59065ffe1303f4887b1b0b6d16e836e90005e14c4a7a48feecfd5fc382f77", size = 390597, upload-time = "2026-03-28T14:08:57.992Z" },
+    { url = "https://files.pythonhosted.org/packages/bd/a0/f4e951f64468ce4adbc063f856cf1419f587e3bc77087bc9651cee9f9326/pyamdgpuinfo-2.1.8-cp314-cp314t-musllinux_1_2_x86_64.whl", hash = "sha256:f614089edbb674020946a6f63a7f7f501303d08ccb32e92008544b089865b969", size = 374945, upload-time = "2026-03-28T14:08:59.14Z" },
+]
+
+[[package]]
 name = "pycairo"
 version = "1.29.0"
 source = { registry = "https://pypi.org/simple" }
@@ -283,6 +330,18 @@ dependencies = [
     { name = "pycairo" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/a2/80/09247a2be28af2c2240132a0af6c1005a2b1d089242b13a2cd782d2de8d7/pygobject-3.56.2.tar.gz", hash = "sha256:b816098969544081de9eecedb94ad6ac59c77e4d571fe7051f18bebcec074313", size = 1409059, upload-time = "2026-03-25T16:14:04.008Z" }
+
+[[package]]
+name = "pyprland"
+version = "2.4.7"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "aiofiles" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/43/25/4fc72817a9b2ad5f53578787c5764d507d0a57f6e5879419a2f31955e78c/pyprland-2.4.7.tar.gz", hash = "sha256:a26788083437867dc31ad59fa9c66ed469907ac40b8c1bdd669653d67b6e9709", size = 48880, upload-time = "2025-08-09T20:26:31.073Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/86/d3/32143fe758ad1f62ccf9ddecdfa1a2b2dd6245fa2570679f5ed34bb18474/pyprland-2.4.7-py3-none-any.whl", hash = "sha256:9649cc5f79596f4a2fb0c8bc8d5a2ccc4c173b990707d904b2c57b3de8eb72a4", size = 61706, upload-time = "2025-08-09T20:26:29.524Z" },
+]
 
 [[package]]
 name = "pyqt6"

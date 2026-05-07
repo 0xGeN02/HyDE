@@ -61,7 +61,7 @@ def run_uv(args, venv_path: str = None, notify_msg: str = None, stream: bool = F
     env["UV_PROJECT_ENVIRONMENT"] = venv_path
 
     if notify_msg:
-        notify.send("HyDE UV", notify_msg)
+        notify.send("HyDE UV", notify_msg, replace_id=9)
 
     cmd = [uv] + args + ["--project", project_dir]
 
@@ -146,11 +146,13 @@ def rebuild_venv() -> None:
 # Package management
 # =========================
 
-def install_dependencies() -> None:
-    """Installs dependencies from pyproject.toml."""
-    run_uv(["sync"], notify_msg="📦 Syncing dependencies...")
-    notify.send("HyDE UV", "✅ Dependencies are up to date")
 
+def sync_packages() -> None:
+    """Installs dependencies from pyproject.toml explicitly."""
+    project_dir = get_project_dir()
+    toml_file = os.path.join(project_dir, "pyproject.toml")
+    run_uv(["pip", "install", "-U", "-r", toml_file],notify_msg="📦 Syncing dependencies...")
+    notify.send("HyDE UV", "✅ Dependencies are up to date", replace_id=9)
 
 def install_package(package: str | Iterable[str]) -> None:
     """Installs a package or list of packages using uv."""
@@ -158,11 +160,11 @@ def install_package(package: str | Iterable[str]) -> None:
         pkgs = [package]
     else:
         pkgs = list(package)
-        
+
     if not pkgs:
         notify.send("HyDE UV", "No packages specified for installation", urgency="warning")
         return
-    
+
     notify.send("HyDE UV", f"Installing {', '.join(pkgs)}...")
     try:
         run_uv(["add"] + pkgs, stream=True)
@@ -177,11 +179,11 @@ def uninstall_package(package: str | Iterable[str]) -> None:
         pkgs = [package]
     else:
         pkgs = list(package)
-        
+
     if not pkgs:
         notify.send("HyDE UV", "No packages specified for uninstallation", urgency="warning")
         return
-    
+
     notify.send("HyDE UV", f"Uninstalling {', '.join(pkgs)}...")
     try:
         run_uv(["remove"] + pkgs, stream=True)
@@ -208,8 +210,12 @@ def inject_site_packages() -> None:
             sys.path.insert(0, path)
 
 
-def v_import(module_name, auto_install=True) -> ModuleType:
-    """Imports a module from the virtual environment, optionally auto-installing it if missing."""
+def v_import(module_name: str, auto_install: bool = True, extra: str = None) -> ModuleType:
+    """Imports a module from the virtual environment, optionally auto-installing it if missing.
+
+    If `extra` is provided (e.g. 'amd'), installs via `uv sync --extra <extra>` instead of
+    `uv add`, keeping the package declared in pyproject.toml optional-dependencies.
+    """
     inject_site_packages()
 
     try:
@@ -219,11 +225,14 @@ def v_import(module_name, auto_install=True) -> ModuleType:
             raise ImportError(f"Module '{module_name}' not found and auto_install is disabled")
 
         notify.send("HyDE UV", f"Installing missing module: {module_name}")
-        install_package(module_name)
+        if extra:
+            run_uv(["sync", "--extra", extra])
+        else:
+            install_package(module_name)
 
         inject_site_packages()
         importlib.invalidate_caches()
-        
+
         try:
             module = importlib.import_module(module_name)
             notify.send("HyDE UV", f"{module_name} installed successfully")
@@ -246,8 +255,8 @@ def cmd_create(_) -> None:
 
 
 def cmd_sync(_) -> None:
-    install_dependencies()
-    
+    sync_packages()
+
 
 def cmd_install(args) -> None:
     install_package(args.packages)
@@ -256,7 +265,7 @@ def cmd_install(args) -> None:
 def cmd_uninstall(args) -> None:
         uninstall_package(args.packages)
 
-    
+
 def cmd_destroy(_) -> None:
     destroy_venv()
 
