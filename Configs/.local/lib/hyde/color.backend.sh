@@ -87,7 +87,7 @@ fn_select() {
 # Initialize argparse
 argparse_init "$@"
 
-argparse_program "hyde-shell dcol.backend"
+argparse_program "hyde-shell color.backend"
 argparse_header "HyDE Color Backend Selector"
 
 argparse "--get,-g" "" "Print the current color backend"
