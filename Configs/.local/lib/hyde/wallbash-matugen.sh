@@ -65,15 +65,20 @@ fi
 
 # Generate dcol file from matugen palettes
 # Mapping strategy:
-#   dcol group 1 <- primary palette   (main theme color)
-#   dcol group 2 <- secondary palette  (muted variant)
-#   dcol group 3 <- tertiary palette   (complementary accent)
-#   dcol group 4 <- neutral palette    (background/surface tones)
+#   dcol group 1 <- neutral palette    (dark bg/surface, used as pry1 background)
+#   dcol group 2 <- primary palette    (main accent color)
+#   dcol group 3 <- secondary palette  (muted accent)
+#   dcol group 4 <- tertiary palette   (complementary accent)
 #
-# For each group:
-#   pry  <- tone 30 (dark) or tone 70 (light) = "the base color"
-#   txt  <- tone 90 (dark) or tone 10 (light) = "readable text on pry"
-#   xa1-xa9 <- 9 tones spread across the scale (dark-to-bright or bright-to-dark)
+# For each group (dark mode):
+#   pry  <- tone 10 (very dark, matches wallbash darkest dominant color)
+#   txt  <- tone 95 (very light text for contrast)
+#   xa1-xa9 <- tones [10,20,25,30,35,40,50,60,80] (dark-to-bright)
+#
+# For each group (light mode):
+#   pry  <- tone 90 (very light)
+#   txt  <- tone 10 (very dark text)
+#   xa1-xa9 <- tones [95,80,70,60,50,40,35,30,20] (bright-to-dark)
 
 python3 -c "
 import sys, json
