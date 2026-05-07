@@ -161,7 +161,7 @@ if [ -z "$wallbash_image" ] || [ ! -f "$wallbash_image" ]; then
 fi
 dcol_file="$dcolDir/$(set_hash "$wallbash_image").dcol"
 mcol_file="$dcolDir/$(set_hash "$wallbash_image").mcol"
-if [ ! -f "$dcol_file" ]; then
+if [ ! -f "$dcol_file" ] || { [[ "${DCOL_BACKEND}" == "matugen" ]] && [ ! -f "$mcol_file" ]; }; then
     "$scrDir/wallpaper/cache.sh" commence -w "$wallbash_image" &> /dev/null
 fi
 # Source color file based on backend preference
