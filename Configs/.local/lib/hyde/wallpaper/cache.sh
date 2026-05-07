@@ -36,35 +36,20 @@ wallpaper_cache_init() {
 }
 
 fn_generate_dcol() {
-	# Generate dcol color file using configured backend
-	# Supports: imagemagick (default), matugen, auto (imagemagick with matugen fallback)
+	# Generate color cache files for wallbash
+	# Always generates .dcol (imagemagick dominant colors)
+	# Also generates .mcol (matugen material colors) if matugen is available
 	local img="$1"
 	local out="$2"
-	local backend="${DCOL_BACKEND:-imagemagick}"
 
-	case "$backend" in
-		matugen)
-			if command -v matugen &>/dev/null; then
-				"$scrDir/wallbash-matugen.sh" --custom "$wallbashCustomCurve" "$img" "$out" &>/dev/null
-			else
-				echo "Warning: matugen not found, falling back to imagemagick"
-				"$scrDir/wallbash.sh" --custom "$wallbashCustomCurve" "$img" "$out" &>/dev/null
-			fi
-			;;
-		auto)
-			# Try imagemagick first, fallback to matugen if it fails or produces invalid output
-			if ! "$scrDir/wallbash.sh" --custom "$wallbashCustomCurve" "$img" "$out" &>/dev/null || \
-			   [ ! -e "${out}.dcol" ] || [ "$(wc -l < "${out}.dcol")" -ne 89 ]; then
-				if command -v matugen &>/dev/null; then
-					"$scrDir/wallbash-matugen.sh" --custom "$wallbashCustomCurve" "$img" "$out" &>/dev/null
-				fi
-			fi
-			;;
-		*)
-			# Default: imagemagick via wallbash.sh
-			"$scrDir/wallbash.sh" --custom "$wallbashCustomCurve" "$img" "$out" &>/dev/null
-			;;
-	esac
+	# Always generate .dcol via imagemagick (primary/default)
+	"$scrDir/wallbash.sh" --custom "$wallbashCustomCurve" "$img" "$out" &>/dev/null
+
+	# Also generate .mcol via matugen if available (coexist)
+	if command -v matugen &>/dev/null; then
+		{ [ ! -e "${out}.mcol" ] || [ "$(wc -l < "${out}.mcol")" -ne 89 ]; } && \
+			"$scrDir/wallbash-matugen.sh" --custom "$wallbashCustomCurve" "$img" "$out" &>/dev/null
+	fi
 }
 
 fn_wallcache() {

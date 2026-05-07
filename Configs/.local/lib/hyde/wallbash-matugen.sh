@@ -28,7 +28,7 @@ while [ $# -gt 0 ]; do
 done
 
 wallbashImg="$1"
-wallbashOut="${2:-"$wallbashImg"}.dcol"
+wallbashOut="${2:-"$wallbashImg"}.mcol"
 
 if [ -z "$wallbashImg" ] || [ ! -f "$wallbashImg" ]; then
     echo "Error: Input file not found!"
