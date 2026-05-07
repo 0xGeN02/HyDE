@@ -48,7 +48,7 @@ fn_generate_dcol() {
 	# Also generate .mcol via matugen if available (coexist)
 	if command -v matugen &>/dev/null; then
 		{ [ ! -e "${out}.mcol" ] || [ "$(wc -l < "${out}.mcol")" -ne 89 ]; } && \
-			"$scrDir/wallbash-matugen.sh" --custom "$wallbashCustomCurve" "$img" "$out" &>/dev/null
+			"$scrDir/wallbash-matugen.py" --custom "$wallbashCustomCurve" "$img" "$out" &>/dev/null
 	fi
 }
 
